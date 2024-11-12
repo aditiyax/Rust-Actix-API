@@ -1,0 +1,2 @@
+Outpoint- is used to represent a specific o/t from a txn.
+Satpoint - is Outpoint + some additional data   

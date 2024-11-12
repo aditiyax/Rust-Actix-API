@@ -1,0 +1,55 @@
+name: Rust
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: GitHub Checkout
+        uses: actions/checkout@v3
+      - name: Cache Rust dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Tool chain setup
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: 🔎 Test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+      - name: 🔨 Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+      - uses: 1k-off/action-semver-tag-release@1.0.1
+        id: tag
+        with:
+          version: latest
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_tag: patch
+          pre_release_tag: ""
+          create_release: true
+          assets: |
+            target/debug/actix-api
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build docker image
+        uses: docker/build-push-action@v4
+        with:
+          push: false
+          tags: actix-api:latest

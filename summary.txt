@@ -1,0 +1,23 @@
+
+#to add
+add Task Not found error -
+create the task api file -
+
+aggregate pipeline 
+Custom Validation
+Custom Error Handling 
+BTC Indexer
+
+
+
+Created the services, model, repos, and validaion files for Task Service functionality 
+
+Testing the Codebase with my custom additions in between the code, to understand the workflows
+Tested the endpoints I created
+
+
+Reading a codebase to understand its workflow to get better knowledge
+Read the codebase
+
+	
+Completing the Task Service Functionality inside the pre-built Actix framework's API

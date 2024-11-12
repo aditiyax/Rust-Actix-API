@@ -1,0 +1,58 @@
+[package]
+name = "actix-api"
+version = "0.6.0"
+edition = "2021"
+authors = ["Bala", "dummy@c12.io"]
+description = "Actix web API application with MongoDB backend store"
+readme = "README.md"
+license = "MIT"
+keywords = ["API", "actix-web", "mongodb"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+# to Reduce the size of release binary.
+# Reduced from 22M to 6.8M (more than 1/3 the original size)
+[profile.release]
+strip = true  # Automatically strip symbols from the binary.
+opt-level = "z"  # Optimize for size.
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[dependencies]
+# actix core web
+actix-web = { features = ["compress-brotli"], default-features = false, version = "4" }
+
+# logging
+log = "^0"
+log4rs = { features = ["config_parsing", "serde_yaml", "yaml_format", "console_appender", "file_appender"], default-features = false, version = "^1" }
+
+# mongodb driver
+mongodb = "^2"
+bson = { version = "^2", features = ["chrono-0_4"], default-features = false }
+
+# JSON Seralizer
+serde = { version = "^1", default-features = false }
+
+# User authenttication and authorization
+jsonwebtoken = { default-features = false, version = "^8" }
+actix-web-grants = "^3"
+actix-web-httpauth = "^0"
+rust-argon2 = "^2"
+rand = "^0"
+
+# request validation
+validator = { version = "^0", features = ["derive"], default-features = false }
+
+# CORS
+actix-cors = "^0"
+
+# Utils
+futures = { default-features = false, version = "^0" }
+chrono = { default-features = false, version = "^0" }
+dotenvy = "^0"       # for environment properties
+nanoid = "^0"        # to generate unique ids
+derive_more = { default-features = false, version = "^0" }
+
+# REST Clinet calls.
+reqwest = { version = "^0", features = ["json"], default-features = false }
